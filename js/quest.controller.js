@@ -21,12 +21,14 @@ function onStartGuessing() {
   renderQuest()
   // ✅show the quest section
   $('.quest').show()
+
 }
 
 function renderQuest() {
   // ✅select the <h2> inside quest and update
   // its text by the currQuest text
-  $('h2').text(gCurrQuest.txt)
+  console.log('getCurrQuest()',getCurrQuest())
+  $('.quest h2').text(getCurrQuest().txt)
 }
 
 function onUserResponse(ev) {
@@ -35,7 +37,9 @@ function onUserResponse(ev) {
   // If this node has no children
   if (isChildless(getCurrQuest())) {
     if (res === 'yes') {
-      alert('Yes, I knew it!')
+      alert('Yes, I knew it!') 
+      onRestartGame()
+      // onRestartGame()                 
       // TODO: improve UX
     } else {
       alert('I dont know...teach me!')
@@ -45,26 +49,27 @@ function onUserResponse(ev) {
     }
   } else {
     // ✅update the lastRes global var
+    gLastRes=res
     moveToNextQuest(res)
     renderQuest()
   }
-  //saveToStorage(STORAGE_KEY, gUsers)
 }
 
 function onAddGuess(ev) {
   ev.preventDefault()
+  // ✅Get the inputs' values        
   var newGuess = $('#newGuess').val()
   var newQuest = $('#newQuest').val()
 
-  // TODO: Get the inputs' values
-  // TODO: Call the service addGuess
-
+  addGuess(newQuest,newGuess,gLastRes)
   onRestartGame()
 }
 
 function onRestartGame() {
   $('.new-quest').hide()
+  $('.quest').hide()             
   $('.game-start').show()
   gLastRes = null
+  init()
 }
 
