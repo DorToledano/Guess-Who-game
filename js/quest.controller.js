@@ -8,9 +8,11 @@ $('.btn-start').click(onStartGuessing)
 $('.btn-yes').click({ ans: 'yes' }, onUserResponse)
 $('.btn-no').click({ ans: 'no' }, onUserResponse)
 $('.btn-add-guess').click(onAddGuess)
+$('.restartBtn').click(onRestartGame)
 
 function init() {
   console.log('Started...')
+  $('.alert-dismissible').hide()
   createQuestsTree()
 }
 
@@ -37,10 +39,9 @@ function onUserResponse(ev) {
   // If this node has no children
   if (isChildless(getCurrQuest())) {
     if (res === 'yes') {
-      alert('Yes, I knew it!') 
-      onRestartGame()
-      // onRestartGame()                 
-      // TODO: improve UX
+    $('.quest').hide()
+    // ✅improve UX
+    $('.alert-dismissible').show()                
     } else {
       alert('I dont know...teach me!')
       // ✅hide and show new-quest section
